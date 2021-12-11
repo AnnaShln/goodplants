@@ -1,0 +1,62 @@
+html { 
+  overflow-x:  hidden;
+ }
+.container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100px auto 100px;
+  grid-gap: 1em;
+  grid-template-areas: "header "
+                       ".tables_container"
+                       "footer";
+}
+.tables_container{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid var(--gray);
+  text-align: left;
+  padding: 10px;
+}
+
+th > div {
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: var(--gray);
+}
+
+.plant_desc{
+width: 300px;
+}
+
+#orders{
+  flex:1;
+  margin-right: 10px;
+}
+
+#plants{
+  flex: 2;
+}
+.small-table-font { 
+  font-size: 10px; 
+  font-weight: 100; 
+  line-height: 14px; 
+} 
+
+caption{
+  padding: 10px 0px;
+  font-size: 14px; 
+  font-weight: 300; 
+  line-height: 15.4px; 
+  letter-spacing: 0.3rem;
+}

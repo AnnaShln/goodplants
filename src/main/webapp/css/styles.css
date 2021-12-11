@@ -1,0 +1,222 @@
+:root{
+  --gray: #f8f7f3;
+  --white: #fff;
+  --green: #507444;
+  --black:#000;
+  --pink: #e145a3;
+}
+body{
+  font-family: Verdana, Geneva, sans-serif; 
+  font-style: normal; 
+  font-variant: normal; 
+  background-color: var(--white);
+  min-width: 500px;
+}
+
+.container {
+  border: 6px double black;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 20% auto;
+  grid-template-rows: 100px auto;
+  grid-gap: 1em;
+  grid-template-areas: "header header"
+                       "sidebar-L article"
+                       "footer footer";
+}
+
+header {
+  grid-area: header;
+  background: var(--gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  grid-area: footer;
+  background: var(--green);
+}
+
+.sidebar-left {
+  margin-left: 30px;
+  margin-top: 10px;
+  grid-area: sidebar-L;
+}
+.filter{
+  background: var(--gray);
+}
+
+article {
+  grid-area: article;
+  margin: 0px 20px;
+}
+#plantlist{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.plantItem{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 10px;
+  align-content: flex-start;
+  cursor: pointer;
+}
+.desc {
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+.name, .family {
+  padding: 5px;
+}
+.sidebar-right {
+  grid-area: sidebar-R;
+}
+.header-font { 
+  font-size: 24px; 
+  font-weight: 400; 
+  letter-spacing:2rem;
+} 
+
+.logo{
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.filter{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+  
+.water, .care, .toxicity, .sun{
+  width: 100%;
+  height: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5px;
+  margin-top: 20px;
+}
+
+.btn-font{
+  font-size: 16px; 
+  font-weight: 300; 
+  line-height: 18px; 
+  letter-spacing: 0.5rem;
+  text-transform: uppercase;
+}
+
+.medium-font { 
+  font-size: 14px; 
+  font-weight: 700; 
+  line-height: 15.4px; 
+  letter-spacing: 0.3rem;
+}
+.small-font { 
+  font-size: 14px; 
+  font-weight: 400; 
+  line-height: 20px; 
+} 
+
+.italic-font { 
+  font-size: 14px; 
+  font-weight: 100; 
+  line-height: 20px; 
+  font-style: italic;
+} 
+
+input[type="checkbox"]:checked, 
+input[type="checkbox"]:not(:checked)
+{
+    position: absolute;
+    left: -9999px;
+}
+
+input[type="checkbox"]:checked + label, 
+input[type="checkbox"]:not(:checked) + label {
+    display: inline-block;
+    position: relative;
+    padding-left: 28px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label:before, 
+input[type="checkbox"]:not(:checked) + label:before{
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+}
+
+input[type="checkbox"]:checked + label:before, 
+input[type="checkbox"]:not(:checked) + label:before {
+    border-radius: 2px;
+}
+
+
+input[type="checkbox"]:checked + label:after, 
+input[type="checkbox"]:not(:checked) + label:after{
+    content: "";
+    position: absolute;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked + label:after, 
+input[type="checkbox"]:not(:checked) + label:after {
+    left: 3px;
+    top: 4px;
+    width: 10px;
+    height: 5px;
+    border-radius: 1px;
+    border-left: 4px solid var(--pink);
+    border-bottom: 4px solid var(--pink);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+input[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+}
+
+input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+}
+
+.checkbox{
+  margin-top: 15px;
+}
+/*Admin button  --->  */
+.btn{
+  text-align: center;
+  width: 150px;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid var(--black);
+  background-color: var(--white);
+  }
+   
+  .btn:hover {
+  color: var(--pink);
+  }
+
+  .logout{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+/* <--- Admin button */

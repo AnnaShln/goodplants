@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles_popup.css">
+    <script type="text/javascript" src="lib/jquery-3.6.0.min.js"></script>
+    <title>GoodPlants</title>
+    <script>
+        $(document).ready(function () {
+            sendServer("getAllPlants");
+        })
+
+        function sendServer(s) {
+            $.get("allplants-servlet",
+                {action: s},
+                function (responseTxt) {
+                    var plants = responseTxt.split("|");
+                    var plantslist = "";
+                    var plant;
+                    plants.forEach(el => {
+                        plant = el.split(",");
+                        plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[2] +
+                            "' width='250px'><div class='desc'><div class='name'>" +
+                            plant[0] +
+                            "</div>" +
+                            "<div class='italic-font family'>" +
+                            plant[1] +
+                            "</div></div></div>";
+                    });
+                    $("#plantlist").append(plantslist);
+                }
+            );
+        }
+
+        var water = new Array();
+        water[0] = "once a week";
+        water[1] = "every 10-14 days";
+        water[2] = "every 3-5 days";
+        water[3] = " 1-2 times  a week";
+
+        var care = new Array();
+        care[0] = "easy";
+        care[1] = "medium";
+        care[2] = "hard";
+
+        var sun = new Array();
+        sun[0] = "part-shade";
+        sun[1] = "part-sun";
+        sun[2] = "part-full";
+        sun[3] = "full sun";
+        sun[4] = "full shade";
+
+        var toxicity = new Array();
+        toxicity[0] = "toxic";
+        toxicity[1] = "non-toxic";
+
+        /*var plants = [
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/lemon.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/pilea.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/monstera.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/echeveria.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "hard",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "easy",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "medium",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "medium",
+                "water": "once a week"
+            },
+            {
+                "name": "cactus",
+                "imgPath": "img/cac.jpg",
+                "family": "Cactaceae",
+                "sun": "full shade",
+                "care": "medium",
+                "water": "once a week"
+            }
+        ];*/
+
+        /*plants.forEach(element => {
+            element.index = Math.floor(Math.random() * 1000) + 1;
+            console.log(element);
+        })*/
+
+        $(document).ready(function () {
+            var filterItems = [
+                {name: "water", idFilter: "#waterlist", value: water},
+                {name: "care", idFilter: "#carelist", value: care},
+                {name: "sun", idFilter: "#sunlist", value: sun},
+                {name: "toxicity", idFilter: "#toxicitylist", value: toxicity}
+            ];
+
+            filterItems.forEach(element => {
+                addItemsToFilter(element.value, element.name, element.idFilter);
+            });
+
+            //addPlantsToPage(plants);
+
+
+            function addItemsToFilter(items, name, id) {
+                var filterItems = "";
+                for (i = 0; i < items.length; i++) {
+                    filterItems += "<div class='checkbox'><input type='checkbox' name='" + name + "' value=" + i +
+                        " id='" + name + i + "'><label for='" + name + i + "'>" + items[i] + "</label></div>";
+                }
+                $(id).append(filterItems);
+            }
+
+            /*function addPlantsToPage(plants) {
+                var plantslist = "";
+                plants.forEach(el => {
+                    plantslist += "<div class='plantItem medium-font'><img src='" + el.imgPath +
+                        "' width='250px'><div class='desc'><div class='name'>" +
+                        el.name +
+                        "</div>" +
+                        "<div class='italic-font family'>" +
+                        el.family +
+                        "</div></div></div>";
+                });
+                $("#plantlist").append(plantslist);
+            }*/
+
+            function findItemInArrayByFieldIndex(array, filterField, index) {
+                array.forEach(element => {
+                    if (element[name] === filterField && element[value].in)
+                        return element;
+                })
+            }
+
+            var loginBtn = document.getElementById('login');
+            var password = document.getElementById('password');
+            var properties = [];
+            $.get('files/properties.txt', function (data) {
+                properties = data.split(',');
+            });
+            $("#error").fadeOut();
+
+            loginBtn.addEventListener('click', function () {
+                if (password.value === properties[0]) {
+                    localStorage.setItem("adminAuth", "true");
+                    window.location.replace("pages/adminPage.html");
+                } else $("#error").fadeIn();
+            }, false);
+
+            document.getElementById('admin').addEventListener('click', function () {
+                $('html, body').animate({scrollTop: '0px'}, 800);
+            });
+
+            $('.show_popup').click(function () { // Вызываем функцию по нажатию на кнопку
+                var popup_id = $('#' + $(this).attr("rel")); // Связываем rel и popup_id
+                $(popup_id).show(); // Открываем окно
+                $('.overlay_popup').show(); // Открываем блок заднего фона
+            })
+
+            $('.overlay_popup').click(function () { // Обрабатываем клик по заднему фону
+                $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
+            });
+
+            /* var checkedFilterItems = [];
+             $(':checkbox').change(function() {
+               if(this.checked){
+                 var newItem;
+                 plants.forEach(el=>{
+           if (el.index == this.index)
+           {
+             newItem = {
+               "name": el.name,
+               "index": el.index,
+               "value": el.value
+             }
+           }
+                 })
+                 var name = this.name;
+                 var value = ;
+                 var filter =
+                 var newItem = {
+                   "name": name,
+                   arr.push(newItem);
+               } else {
+                   var val = $(this).val();
+                   var index = arr.indexOf(val);
+                   arr.splice(index, 1);
+               }
+               console.log(arr);
+             })*/
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <p class="header-font logo">goodplants</p>
+    </header>
+
+    <aside class="sidebar-left">
+        <div class="filter small-font">
+            <div class="care">
+                <div class="medium-font">
+                    care
+                </div>
+                <div id="carelist">
+                </div>
+            </div>
+            <div class="sun">
+                <div class="medium-font">
+                    sun level
+                </div>
+                <div id="sunlist">
+                </div>
+            </div>
+            <div class="water">
+                <div class="medium-font">
+                    water
+                </div>
+                <div id="waterlist">
+                </div>
+            </div>
+            <div class="toxicity">
+                <div class="medium-font">
+                    toxicity
+                </div>
+                <div id="toxicitylist">
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <article>
+        <div id="plantlist">
+        </div>
+    </article>
+    <footer>
+        <div class="show_popup btn btn-font admin" id="admin" rel="popup1">admin page</div>
+        <div class="overlay_popup"></div>
+        <div class="popup" id="popup1">
+            <div class="object">
+                <p class="medium-font">Password</p>
+                <p><input type="text" name="pass" id="password"></p>
+                <div id="error">wrong password</div>
+                <button class="btn btn-font admin login" id="login">login</button>
+            </div>
+        </div>
+
+    </footer>
+</div>
+</body>
+</html>
+

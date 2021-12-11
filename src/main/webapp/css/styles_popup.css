@@ -1,0 +1,96 @@
+textarea {
+  width: 100%;
+  resize: none;
+}
+
+.content {
+  text-align: center;
+}
+
+button {  
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+button:active {
+  transform: translate(0px, 5px);
+  -webkit-transform: translate(0px, 5px);
+  box-shadow: 0px 1px 0px 0px;
+}
+
+button:focus {
+  outline: none !important
+}
+
+button:hover {
+  color: var(--pink);
+}
+
+/* Стили для содержимого popup окна */
+
+input, textarea {
+  color: #494949;
+  border: 1px solid #e3e3e3;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 14px;
+  margin: 0 0 10px;
+  padding: 5px;
+  width: 100%;
+  line-height: 1.5;
+}
+
+input:focus {
+  border-color: #808080;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: #808080;
+  outline: none;
+}
+
+/* Окно */
+
+.overlay_popup {
+  display:none;
+  position:fixed;
+  z-index: 999;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  background:#000;
+  opacity:0.5;
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  top: 50%;
+  z-index: 1000;
+  margin:0 25% 0 25%;
+  width:50%;
+}
+
+.object{
+  width: 500px;
+  height: auto;
+  background-color: #eee;
+  padding: 50px 70px;
+}
+
+#error{
+  font-size: 14px; 
+  font-weight: 400; 
+  line-height: 15.4px; 
+  letter-spacing: 0.3rem;
+  margin: 10px 0 20px 0;
+  color: rgb(231, 71, 71);
+  text-transform: uppercase;
+}
+
+.login{
+  margin: 0px;
+}
