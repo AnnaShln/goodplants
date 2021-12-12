@@ -23,7 +23,7 @@
             <div class="overlay_popup"></div>
             <div class="popup" id="add_popup">
                 <div class="object">
-                    <form action="" method="">
+                    <form action="" method="get">
                         <p>Name</p>
                         <p><input type="text" name="name" id="name_select"></p>
                         <p>Family:</p>
@@ -32,31 +32,31 @@
                         <p><textarea rows="10" cols="45" name="desc" id="desc_select"></textarea></p>
                         <p>Image</p>
                         <p><input type="file" accept="image/*" name="image" id="image_select"></p>
-                        <select  id="water_select">
+                        <select id="water_select">
                             <option disabled>WATER</option>
-                            <option>every 3-5 days</option>
-                            <option>1-2 times  a week</option>
-                            <option>every 10-14 days</option>
-                            <option>once a month</option>
+                            <option value="1">every 3-5 days</option>
+                            <option value="2">1-2 times a week</option>
+                            <option value="3">every 10-14 days</option>
+                            <option value="4">once a month</option>
                         </select>
                         <select id="sun_select">
                             <option disabled>SUN</option>
-                            <option>part-shade</option>
-                            <option>part-sun</option>
-                            <option>part-full</option>
-                            <option>full sun</option>
-                            <option>full shade</option>
+                            <option value="1">part-shade</option>
+                            <option value="2">part-sun</option>
+                            <option value="3">part-full</option>
+                            <option value="4">full sun</option>
+                            <option value="5">full shade</option>
                         </select>
                         <select id="care_select">
                             <option disabled>CARE</option>
-                            <option>easy</option>
-                            <option>medium</option>
-                            <option>hard</option>
+                            <option value="1">easy</option>
+                            <option value="2">medium</option>
+                            <option value="3">hard</option>
                         </select>
                         <select id="toxicity_select">
                             <option disabled>TOXICITY</option>
-                            <option>toxic</option>
-                            <option>non-toxic</option>
+                            <option value="1">toxic</option>
+                            <option value="2">non-toxic</option>
                         </select>
                         <input type="submit" value="Add" id="addBtn">
                     </form>
@@ -71,7 +71,7 @@
 </html>
 
 <script>
-    function getAllPlants(s) {
+    function getAllPlants() {
         $.get("../filter-servlet",
             {allPlants: "true"},
             function (responseTxt) {
@@ -92,39 +92,52 @@
         );
     }
 
+    function getAllOrders() {
+        $.get("../order-servlet",
+            {allOrders: "true"},
+            function (responseTxt) {
+                if (responseTxt === "null") {
+                    $("#orders").html("<p>Nothing found</p>");
+                } else {
+                    var orderlist = responseTxt.split("|");
+                    var order;
+                    var orders = "<table><caption>Orders</caption><tr><th>Order №</th><th>Name</th><th>Date</th>" +
+                        "<th>Phone</th><th>Plant</th></tr>";
+                    orderlist.forEach(el => {
+                        order = el.split(";");
+                        orders += "<tr><th>" + order[0] + "</th><th>" + order[1] + "</th><th>" + order[2] + "</th><th>" +
+                            order[3] + "</th><th>" + order[4] + "</th></tr>";
+                    });
+                    orders += "</table>";
+                    $("#orders").append(orders);
+                }
+            }
+        );
+    }
+
+    function createNewPlant(n, f, d, i, w, s, c, t) {
+        $.get("../createPlant-servlet",
+            {name: n, family: f, desc: d, img: i, water: w, sun: s, care: c, toxicity: t});
+    }
+
+    $('#addBtn').click(function () {
+        var name = $("#name_select").val();
+        var family = $("#family_select").val();
+        var desc = $("#desc_select").val();
+        var path = $("#image_select").val();
+        var img = path.split("\\");
+        var water = $("#water_select").val();
+        var sun = $("#sun_select").val();
+        var care = $("#care_select").val();
+        var toxicity = $("#toxicity_select").val();
+        createNewPlant(name, family, desc, img[img.length - 1], water, sun, care, toxicity);
+    })
+
     $(document).ready(function () {
-        getAllPlants("allPlants")
+        getAllPlants();
+        getAllOrders();
         if (localStorage.getItem("adminAuth") != "true") window.location.replace("../index.html");
     });
-
-    var orders = [
-        {"id": 1, "name": "Anna", "phone": "+79625180233", "datetime": " 2007-10-23 11:37:55", "plant_id": 1},
-        {"id": 2, "name": "Anna1", "phone": "+79625180233", "datetime": " 2007-10-23 11:38:55", "plant_id": 4},
-        {"id": 3, "name": "Anna2", "phone": "+79625180233", "datetime": " 2007-10-23 11:39:55", "plant_id": 6},
-        {"id": 4, "name": "Anna3", "phone": "+79625180233", "datetime": " 2007-10-23 12:37:55", "plant_id": 7},
-        {"id": 5, "name": "Anna4", "phone": "+79625180233", "datetime": " 2007-10-23 13:37:55", "plant_id": 8},
-        {"id": 6, "name": "Anna5", "phone": "+79625180233", "datetime": " 2007-10-23 11:31:55", "plant_id": 9},
-        {"id": 12, "name": "Anna6", "phone": "+79625180233", "datetime": " 2007-10-23 11:32:55", "plant_id": 10},
-        {"id": 13, "name": "Anna7", "phone": "+79625180233", "datetime": " 2007-10-23 11:33:55", "plant_id": 11},
-        {"id": 14, "name": "Anna8", "phone": "+79625180233", "datetime": " 2007-10-23 11:34:55", "plant_id": 1},
-        {"id": 15, "name": "Anna9", "phone": "+79625180233", "datetime": " 2007-10-24 11:37:55", "plant_id": 1},
-        {"id": 16, "name": "Anna10", "phone": "+79625180233", "datetime": " 2007-10-25 11:37:55", "plant_id": 1}
-    ];
-
-    addOrdersToTable(orders);
-
-    function addOrdersToTable(items) {
-        var orders = "<table><caption>Orders</caption><tr><th>Order №</th><th>Name</th><th>Date</th>" +
-            "<th>Phone</th><th>Plant</th></tr>";
-
-        items.forEach(item => {
-            orders += "<tr><th>" + item.id + "</th><th>" + item.name + "</th><th>" + item.datetime + "</th><th>" +
-                item.phone + "</th><th>" + item.plant_id + "</th></tr>"; //тут будет не айди у растения
-        });
-
-        orders += "</table>";
-        $("#orders").append(orders);
-    }
 
     var logoutBtn = document.getElementById('logout');
 

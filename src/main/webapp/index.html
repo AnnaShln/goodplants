@@ -47,6 +47,13 @@
             );
         }
 
+        function clearRadio(){
+            $('input[name="water"]:checked').attr('checked', false);
+            $('input[name="care"]:checked').attr('checked', false);
+            $('input[name="sun"]:checked').attr('checked', false);
+            $('input[name="toxicity"]:checked').attr('checked', false);
+        }
+
         var water = [];
         water[0] = "once a week";
         water[1] = "every 10-14 days";
@@ -189,6 +196,7 @@
                 <div id="toxicitylist">
                 </div>
             </div>
+            <a href="javascript:getAllPlants(); clearRadio()">clear filter</a>
         </div>
     </aside>
     <article>

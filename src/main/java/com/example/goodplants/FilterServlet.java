@@ -20,8 +20,8 @@ public class FilterServlet extends HttpServlet {
             }
             String[] properties = sb.toString().split(",");*/
             Class.forName("com.mysql.jdbc.Driver");
-            final String user = "admin";
-            final String pass = "Admin12345";
+            final String user = "root";
+            final String pass = "santaleo1402";
             final String DB_URL = "jdbc:mysql://localhost/goodplant";
             Connection conn = DriverManager.getConnection(DB_URL, user, pass);
             Statement stmt = conn.createStatement();
