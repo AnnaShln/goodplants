@@ -20,13 +20,14 @@
                     var plant;
                     plants.forEach(el => {
                         plant = el.split(";");
-                        plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
-                            "' width='250px'><div class='desc'><div class='name'>" +
+                        plantslist += "<div class='plantItem medium-font' id='"+plant[0]+"'><img src='img/" + plant[4] +
+                            "' width='250px'><div class='desc plant-name show-popup btn'><div class='name'>" +
                             plant[1] +
                             "</div>" +
                             "<div class='italic-font family'>" +
                             plant[2] +
-                            "</div></div></div>";
+                            "</div>" +
+                            "</div></div>";
                     });
                     $("#plantlist").append(plantslist);
                 }
@@ -55,101 +56,6 @@
         toxicity[0] = "toxic";
         toxicity[1] = "non-toxic";
 
-        /*var plants = [
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/lemon.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/pilea.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/monstera.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/echeveria.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "easy",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
-            }
-        ];*/
-
-        /*plants.forEach(element => {
-            element.index = Math.floor(Math.random() * 1000) + 1;
-            console.log(element);
-        })*/
 
         $(document).ready(function () {
             var filterItems = [
@@ -163,9 +69,6 @@
                 addItemsToFilter(element.value, element.name, element.idFilter);
             });
 
-            //addPlantsToPage(plants);
-
-
             function addItemsToFilter(items, name, id) {
                 var filterItems = "";
                 for (i = 0; i < items.length; i++) {
@@ -174,20 +77,6 @@
                 }
                 $(id).append(filterItems);
             }
-
-            /*function addPlantsToPage(plants) {
-                var plantslist = "";
-                plants.forEach(el => {
-                    plantslist += "<div class='plantItem medium-font'><img src='" + el.imgPath +
-                        "' width='250px'><div class='desc'><div class='name'>" +
-                        el.name +
-                        "</div>" +
-                        "<div class='italic-font family'>" +
-                        el.family +
-                        "</div></div></div>";
-                });
-                $("#plantlist").append(plantslist);
-            }*/
 
             function findItemInArrayByFieldIndex(array, filterField, index) {
                 array.forEach(element => {
@@ -224,6 +113,7 @@
             $('.overlay_popup').click(function () { // Обрабатываем клик по заднему фону
                 $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
             });
+
 
             /* var checkedFilterItems = [];
              $(':checkbox').change(function() {
@@ -295,7 +185,19 @@
     </aside>
 
     <article>
+        <div class="plantItem medium-font show_popup plant-name btn" rel="plant_popup">тыкни</div>
         <div id="plantlist">
+        </div>
+        <div class="overlay_popup"></div>
+        <div class="popup" id="plant_popup">
+            <div class="object">
+                <p class="header-font">Description</p>
+                <p class="medium-font" id="desc_popup">DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription</p>
+                <p class="header-font">Know more*/****//*</p>
+                <p><input type="text" name="name" id="name" value="name"></p>
+                <p><input type="text" name="phone" id="phone" value="+7--------"></p>
+                <button class="btn btn-font admin login" id="name_phone">call me later</button>
+            </div>
         </div>
     </article>
     <footer>
