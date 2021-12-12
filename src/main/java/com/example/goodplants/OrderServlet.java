@@ -30,12 +30,12 @@ public class OrderServlet extends HttpServlet {
             String plant_id = request.getParameter("plant");
             String allOrders = request.getParameter("allOrders");
             StringBuilder allOrdersList = new StringBuilder();
-            if (Objects.equals(allOrders, "true")){
+            if (Objects.equals(allOrders, "true")) {
                 String sql_text = "select orders.id, orders.name, phone, datetime, plant.name as plant " +
                         "from orders, plant " +
                         "where plant_id = plant.id;";
                 ResultSet rs = stmt.executeQuery(sql_text);
-                if (!rs.isBeforeFirst() ) {
+                if (!rs.isBeforeFirst()) {
                     allOrdersList.append("null");
                 } else {
                     while (rs.next()) {
@@ -45,11 +45,11 @@ public class OrderServlet extends HttpServlet {
                                 .append(";").append(rs.getString("plant")).append("|");
                     }
                     rs.close();
-                    allOrdersList.setLength(allOrders.length() - 1);
+                    allOrdersList.setLength(allOrdersList.length() - 1);
                 }
             } else {
-                String sql_text = "INSERT INTO orders (name, phone, plant_id)" +
-                        " VALUES ('" + name + "', '" + phone + "', " + plant_id + ");";
+                String sql_text = "INSERT INTO orders (name, phone, datetime, plant_id)" +
+                        " VALUES ('" + name + "', '" + phone + "', current_timestamp(), " + plant_id + ");";
                 stmt.executeUpdate(sql_text);
             }
             stmt.close();
