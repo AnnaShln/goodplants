@@ -19,7 +19,7 @@
         <div id="orders" class="table">
         </div>
         <div id="plants" class="table">
-            <button class="show_popup blue_btn" rel="add_popup">Add plant</button>
+            <button class="show_popup btn btn-font" rel="add_popup" >Add plant</button>
             <div class="overlay_popup"></div>
             <div class="popup" id="add_popup">
                 <div class="object">
@@ -32,14 +32,14 @@
                         <p><textarea rows="10" cols="45" name="desc" id="desc_select"></textarea></p>
                         <p>Image</p>
                         <p><input type="file" accept="image/*" name="image" id="image_select"></p>
-                        <select id="water_select">
+                        <select id="water_select" class="list">
                             <option disabled>WATER</option>
                             <option value="1">every 3-5 days</option>
                             <option value="2">1-2 times a week</option>
                             <option value="3">every 10-14 days</option>
                             <option value="4">once a month</option>
                         </select>
-                        <select id="sun_select">
+                        <select id="sun_select" class="list">
                             <option disabled>SUN</option>
                             <option value="1">part-shade</option>
                             <option value="2">part-sun</option>
@@ -47,18 +47,18 @@
                             <option value="4">full sun</option>
                             <option value="5">full shade</option>
                         </select>
-                        <select id="care_select">
+                        <select id="care_select" class="list">
                             <option disabled>CARE</option>
                             <option value="1">easy</option>
                             <option value="2">medium</option>
                             <option value="3">hard</option>
                         </select>
-                        <select id="toxicity_select">
+                        <select id="toxicity_select" class="list">
                             <option disabled>TOXICITY</option>
                             <option value="1">toxic</option>
                             <option value="2">non-toxic</option>
                         </select>
-                        <input type="submit" value="Add" id="addBtn">
+                        <input type="submit" value="Add" id="addBtn" class="btn btn-font">
                     </form>
                 </div>
             </div>
@@ -69,7 +69,6 @@
 </div>
 </body>
 </html>
-
 <script>
     function getAllPlants() {
         $.get("../filter-servlet",
@@ -81,8 +80,8 @@
                     "<th>Description</th><th>img</th><th>Water</th><th>Care</th><th>Sun</th><th>Toxicity</th></tr>";
                 plantlist.forEach(el => {
                     plant = el.split(";");
-                    plants += "<tr><th><div contenteditable>" + plant[1] + "</div></th><th><div contenteditable>" +
-                        plant[2] + "</div></th><th><div contenteditable class='plant_desc'>" + plant[3] +
+                    plants += "<tr><th><div>" + plant[1] + "</div></th><th><div>" +
+                        plant[2] + "</div></th><th><div class='plant_desc'>" + plant[3] +
                         "</div></th><th>" + plant[4] + "</th><th>" + plant[5] + "</th><th>" + plant[6] + "</th><th>" +
                         plant[7] + "</th><th>" + plant[8] + "</th></tr>";
                 });
@@ -155,10 +154,4 @@
     $('.overlay_popup').click(function () {
         $('.overlay_popup, .popup').hide();
     });
-
-    $('#image_select').click(function () {
-        var fileName = $("#image_select").val().split('/').pop().split('\\').pop();
-        console.log(fileName);
-    });
-
 </script>
