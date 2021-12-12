@@ -7,151 +7,90 @@
     <script type="text/javascript" src="lib/jquery-3.6.0.min.js"></script>
     <title>GoodPlants</title>
     <script>
-        $(document).ready(function () {
-            getAllPlants("getAllPlants");
-        })
+        function showPlants(text) {
+            if (text === "null") {
+                $("#plantlist").html("<p>Nothing found</p>");
+            } else {
+                var plants = text.split("|");
+                var plantslist = "";
+                var plant;
+                plants.forEach(el => {
+                    plant = el.split(";");
+                    plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
+                        "' width='250px'><div class='desc'><div class='name'>" +
+                        plant[1] +
+                        "</div>" +
+                        "<div class='italic-font family'>" +
+                        plant[2] +
+                        "</div></div></div>";
+                });
+                $("#plantlist").html(plantslist);
+            }
+        }
 
-        function getAllPlants(s) {
-            $.get("allplants-servlet",
-                {action: s},
+
+        function getAllPlants() {
+            $.get("filter-servlet",
+                {allPlants: "true"},
                 function (responseTxt) {
-                    var plants = responseTxt.split("|");
-                    var plantslist = "";
-                    var plant;
-                    plants.forEach(el => {
-                        plant = el.split(";");
-                        plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
-                            "' width='250px'><div class='desc'><div class='name'>" +
-                            plant[1] +
-                            "</div>" +
-                            "<div class='italic-font family'>" +
-                            plant[2] +
-                            "</div></div></div>";
-                    });
-                    $("#plantlist").append(plantslist);
+                    showPlants(responseTxt);
                 }
             );
         }
 
-        var water = new Array();
+        function filter(w, c, s, t) {
+            $.get("filter-servlet",
+                {filterWater: w, allPlants: "false", filterCare: c, filterSun: s, filterToxicity: t},
+                function (responseTxt) {
+                    showPlants(responseTxt);
+                }
+            );
+        }
+
+        var water = [];
         water[0] = "once a week";
         water[1] = "every 10-14 days";
         water[2] = "every 3-5 days";
         water[3] = " 1-2 times  a week";
 
-        var care = new Array();
+        var care = [];
         care[0] = "easy";
         care[1] = "medium";
         care[2] = "hard";
 
-        var sun = new Array();
+        var sun = [];
         sun[0] = "part-shade";
         sun[1] = "part-sun";
         sun[2] = "part-full";
         sun[3] = "full sun";
         sun[4] = "full shade";
 
-        var toxicity = new Array();
+        var toxicity = [];
         toxicity[0] = "toxic";
         toxicity[1] = "non-toxic";
 
-        /*var plants = [
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/lemon.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/pilea.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/monstera.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/echeveria.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "hard",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "easy",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
-            },
-            {
-                "name": "cactus",
-                "imgPath": "img/cac.jpg",
-                "family": "Cactaceae",
-                "sun": "full shade",
-                "care": "medium",
-                "water": "once a week"
+        function addItemsToFilter(items, name, id) {
+            var filterItems = "";
+            for (i = 0; i < items.length; i++) {
+                var ind = i + 1;
+                filterItems += "<div class='checkbox'><input type='radio' name='" + name + "' value=" + ind +
+                    " id='" + name + i + "'><label for='" + name + i + "'>" + items[i] + "</label></div>";
             }
-        ];*/
+            $(id).append(filterItems);
+        }
 
-        /*plants.forEach(element => {
-            element.index = Math.floor(Math.random() * 1000) + 1;
-            console.log(element);
-        })*/
+        function showFilters() {
+            var w = $('input[name="water"]:checked').val();
+            var c = $('input[name="care"]:checked').val();
+            var s = $('input[name="sun"]:checked').val();
+            var t = $('input[name="toxicity"]:checked').val();
+            filter(w, c, s, t);
+        }
 
         $(document).ready(function () {
+
+            getAllPlants();
+
             var filterItems = [
                 {name: "water", idFilter: "#waterlist", value: water},
                 {name: "care", idFilter: "#carelist", value: care},
@@ -163,38 +102,18 @@
                 addItemsToFilter(element.value, element.name, element.idFilter);
             });
 
-            //addPlantsToPage(plants);
-
-
-            function addItemsToFilter(items, name, id) {
-                var filterItems = "";
-                for (i = 0; i < items.length; i++) {
-                    filterItems += "<div class='checkbox'><input type='checkbox' name='" + name + "' value=" + i +
-                        " id='" + name + i + "'><label for='" + name + i + "'>" + items[i] + "</label></div>";
-                }
-                $(id).append(filterItems);
-            }
-
-            /*function addPlantsToPage(plants) {
-                var plantslist = "";
-                plants.forEach(el => {
-                    plantslist += "<div class='plantItem medium-font'><img src='" + el.imgPath +
-                        "' width='250px'><div class='desc'><div class='name'>" +
-                        el.name +
-                        "</div>" +
-                        "<div class='italic-font family'>" +
-                        el.family +
-                        "</div></div></div>";
-                });
-                $("#plantlist").append(plantslist);
-            }*/
-
-            function findItemInArrayByFieldIndex(array, filterField, index) {
-                array.forEach(element => {
-                    if (element[name] === filterField && element[value].in)
-                        return element;
-                })
-            }
+            $('input[name="water"]').click(function () {
+                showFilters();
+            });
+            $('input[name="care"]').click(function () {
+                showFilters();
+            });
+            $('input[name="sun"]').click(function () {
+                showFilters();
+            });
+            $('input[name="toxicity"]').click(function () {
+                showFilters();
+            });
 
             var loginBtn = document.getElementById('login');
             var password = document.getElementById('password');
@@ -224,34 +143,6 @@
             $('.overlay_popup').click(function () { // Обрабатываем клик по заднему фону
                 $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
             });
-
-            /* var checkedFilterItems = [];
-             $(':checkbox').change(function() {
-               if(this.checked){
-                 var newItem;
-                 plants.forEach(el=>{
-           if (el.index == this.index)
-           {
-             newItem = {
-               "name": el.name,
-               "index": el.index,
-               "value": el.value
-             }
-           }
-                 })
-                 var name = this.name;
-                 var value = ;
-                 var filter =
-                 var newItem = {
-                   "name": name,
-                   arr.push(newItem);
-               } else {
-                   var val = $(this).val();
-                   var index = arr.indexOf(val);
-                   arr.splice(index, 1);
-               }
-               console.log(arr);
-             })*/
         });
     </script>
 </head>
