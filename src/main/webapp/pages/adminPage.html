@@ -44,8 +44,8 @@
 
 <script>
     function getAllPlants(s) {
-        $.get("../allplants-servlet",
-            {action: s},
+        $.get("../filter-servlet",
+            {allPlants: "true"},
             function (responseTxt) {
                 var plantlist = responseTxt.split("|");
                 var plant;
