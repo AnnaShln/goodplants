@@ -8,10 +8,10 @@
     <title>GoodPlants</title>
     <script>
         $(document).ready(function () {
-            sendServer("getAllPlants");
+            getAllPlants("getAllPlants");
         })
 
-        function sendServer(s) {
+        function getAllPlants(s) {
             $.get("allplants-servlet",
                 {action: s},
                 function (responseTxt) {
@@ -19,13 +19,13 @@
                     var plantslist = "";
                     var plant;
                     plants.forEach(el => {
-                        plant = el.split(",");
-                        plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[2] +
+                        plant = el.split(";");
+                        plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
                             "' width='250px'><div class='desc'><div class='name'>" +
-                            plant[0] +
+                            plant[1] +
                             "</div>" +
                             "<div class='italic-font family'>" +
-                            plant[1] +
+                            plant[2] +
                             "</div></div></div>";
                     });
                     $("#plantlist").append(plantslist);

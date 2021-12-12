@@ -1,123 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <link rel="stylesheet" href="../css/styles.css">
-      <link rel="stylesheet" href="../css/styles_adminPage.css">
-      <link rel="stylesheet" href="../css/styles_popup.css">
-      <script type="text/javascript" src="../lib/jquery-3.6.0.min.js"></script>
-        <title>GoodPlants Admin</title>
-    </head>
-    <body>
-      <div class="container">
-        <header>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles_adminPage.css">
+    <link rel="stylesheet" href="../css/styles_popup.css">
+    <script type="text/javascript" src="../lib/jquery-3.6.0.min.js"></script>
+    <title>GoodPlants Admin</title>
+</head>
+<body>
+<div class="container">
+    <header>
         <p class="btn-font logo">Admin page</p>
         <p class="header-font logo">goodplants</p>
         <div class="btn btn-font logout" id="logout">log out</div>
-        </header>
-        <div class="tables_container small-table-font">
-          <div id="orders" class="table">
-          </div>
-          <div id="plants" class="table">
-              <button class="show_popup blue_btn" rel="popup1">Add plant</button>
-              <div class="overlay_popup"></div>
-              <div class="popup" id="popup1">
-                <div class="object">
-                  <form action= "" method= "">
-                    <p>Name</p>
-                    <p><input type= "text" name= "name"></p>
-                    <p>Family:</p>
-                    <p><input type= "text" name= "family"></p>
-                    <p>Desc: </p>
-                    <p><textarea rows= "10" cols= "45" name= "desc"></textarea></p>
-                    <input type= "submit" value= "Add">
-                  </form>
-                </div>
-               </div>
-          </div>
+    </header>
+    <div class="tables_container small-table-font">
+        <div id="orders" class="table">
         </div>
-        <footer>
-        </footer>
+        <div id="plants" class="table">
+            <button class="show_popup blue_btn" rel="popup1">Add plant</button>
+            <div class="overlay_popup"></div>
+            <div class="popup" id="popup1">
+                <div class="object">
+                    <form action="" method="">
+                        <p>Name</p>
+                        <p><input type="text" name="name"></p>
+                        <p>Family:</p>
+                        <p><input type="text" name="family"></p>
+                        <p>Desc: </p>
+                        <p><textarea rows="10" cols="45" name="desc"></textarea></p>
+                        <input type="submit" value="Add">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+    <footer>
+    </footer>
+</div>
+</body>
 </html>
 
 <script>
+    function getAllPlants(s) {
+        $.get("../allplants-servlet",
+            {action: s},
+            function (responseTxt) {
+                var plantlist = responseTxt.split("|");
+                var plant;
+                var plants = "<table><caption>Plants list</caption><tr><th>Plant</th><th>Family</th>" +
+                    "<th>Description</th><th>img</th><th>Water</th><th>Care</th><th>Sun</th><th>Toxicity</th></tr>";
+                plantlist.forEach(el => {
+                    plant = el.split(";");
+                    plants += "<tr><th><div contenteditable>" + plant[1] + "</div></th><th><div contenteditable>" +
+                        plant[2] + "</div></th><th><div contenteditable class='plant_desc'>" + plant[3] +
+                        "</div></th><th>" + plant[4] + "</th><th>" + plant[5] + "</th><th>" + plant[6] + "</th><th>" +
+                        plant[7] + "</th><th>" + plant[8] + "</th></tr>";
+                });
+                plants += "</table>";
+                $("#plants").append(plants);
+            }
+        );
+    }
 
-$(document).ready(function(){ 
-        if (localStorage.getItem("adminAuth") != "true")  window.location.replace("../index.html");
-      });
-   
+    $(document).ready(function () {
+        getAllPlants("allPlants")
+        if (localStorage.getItem("adminAuth") != "true") window.location.replace("../index.html");
+    });
+
     var orders = [
-      {"id": 1, "name": "Anna", "phone": "+79625180233", "datetime": " 2007-10-23 11:37:55", "plant_id": 1},
-      {"id": 2, "name": "Anna1", "phone": "+79625180233", "datetime": " 2007-10-23 11:38:55", "plant_id": 4},
-      {"id": 3, "name": "Anna2", "phone": "+79625180233", "datetime": " 2007-10-23 11:39:55", "plant_id": 6},
-      {"id": 4, "name": "Anna3", "phone": "+79625180233", "datetime": " 2007-10-23 12:37:55", "plant_id": 7},
-      {"id": 5, "name": "Anna4", "phone": "+79625180233", "datetime": " 2007-10-23 13:37:55", "plant_id": 8},
-      {"id": 6, "name": "Anna5", "phone": "+79625180233", "datetime": " 2007-10-23 11:31:55", "plant_id": 9},
-      {"id": 12, "name": "Anna6", "phone": "+79625180233", "datetime": " 2007-10-23 11:32:55", "plant_id": 10},
-      {"id": 13, "name": "Anna7", "phone": "+79625180233", "datetime": " 2007-10-23 11:33:55", "plant_id": 11},
-      {"id": 14, "name": "Anna8", "phone": "+79625180233", "datetime": " 2007-10-23 11:34:55", "plant_id": 1},
-      {"id": 15, "name": "Anna9", "phone": "+79625180233", "datetime": " 2007-10-24 11:37:55", "plant_id": 1},
-      {"id": 16, "name": "Anna10", "phone": "+79625180233", "datetime": " 2007-10-25 11:37:55", "plant_id": 1}
+        {"id": 1, "name": "Anna", "phone": "+79625180233", "datetime": " 2007-10-23 11:37:55", "plant_id": 1},
+        {"id": 2, "name": "Anna1", "phone": "+79625180233", "datetime": " 2007-10-23 11:38:55", "plant_id": 4},
+        {"id": 3, "name": "Anna2", "phone": "+79625180233", "datetime": " 2007-10-23 11:39:55", "plant_id": 6},
+        {"id": 4, "name": "Anna3", "phone": "+79625180233", "datetime": " 2007-10-23 12:37:55", "plant_id": 7},
+        {"id": 5, "name": "Anna4", "phone": "+79625180233", "datetime": " 2007-10-23 13:37:55", "plant_id": 8},
+        {"id": 6, "name": "Anna5", "phone": "+79625180233", "datetime": " 2007-10-23 11:31:55", "plant_id": 9},
+        {"id": 12, "name": "Anna6", "phone": "+79625180233", "datetime": " 2007-10-23 11:32:55", "plant_id": 10},
+        {"id": 13, "name": "Anna7", "phone": "+79625180233", "datetime": " 2007-10-23 11:33:55", "plant_id": 11},
+        {"id": 14, "name": "Anna8", "phone": "+79625180233", "datetime": " 2007-10-23 11:34:55", "plant_id": 1},
+        {"id": 15, "name": "Anna9", "phone": "+79625180233", "datetime": " 2007-10-24 11:37:55", "plant_id": 1},
+        {"id": 16, "name": "Anna10", "phone": "+79625180233", "datetime": " 2007-10-25 11:37:55", "plant_id": 1}
     ];
 
-    var plants = [
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"},
-      {"id": 1, "name": "cactus", "family": "CACTACEAE", "desc": "Очень красивый цветочек, мало пьет, классный цветок короче", "img": "cac.jpg", "water": "every 10-14 days", "care": "easy", "sun":"part-sun", "toxity": "toxic"}
-    ]
-  
-    addPlantsToTable(plants);
+    /*var plants = [
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        }, {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        },
+        {
+            "id": 1,
+            "name": "cactus",
+            "family": "CACTACEAE",
+            "desc": "Очень красивый цветочек, мало пьет, классный цветок короче",
+            "img": "cac.jpg",
+            "water": "every 10-14 days",
+            "care": "easy",
+            "sun": "part-sun",
+            "toxity": "toxic"
+        }
+    ]*/
+
+    //addPlantsToTable(plants);
     addOrdersToTable(orders);
-    function addPlantsToTable(items){
-            var plants = "<table><caption>Plants list</caption><tr><th>Plant</th><th>Family</th><th>Description</th><th>img</th><th>Water</th><th>Care</th><th>Sun</th><th>Toxicity</th></tr>";
-            
-               items.forEach(item => {
-                plants +="<tr><th><div contenteditable>"+item.name+"</div></th><th><div contenteditable>"+item.family+"</div></th><th><div contenteditable class='plant_desc'>"+item.desc+"</div></th><th>"+item.img+"</th><th>"+item.water+"</th><th>"+item.care+"</th><th>"+item.sun+"</th><th>"+item.toxity+"</th></tr>";
-               });
 
-            plants+="</table>";
-            $("#plants").append(plants);
-  }
+    /*function addPlantsToTable(items) {
+        var plants = "<table><caption>Plants list</caption><tr><th>Plant</th><th>Family</th><th>Description</th><th>img</th><th>Water</th><th>Care</th><th>Sun</th><th>Toxicity</th></tr>";
 
-  function addOrdersToTable(items){
-            var orders = "<table><caption>Orders</caption><tr><th>Order №</th><th>Name</th><th>Date</th><th>Phone</th><th>Plant</th></tr>";
-            
-               items.forEach(item => {
-                orders +="<tr><th>"+item.id+"</th><th>"+item.name+"</th><th>"+item.datetime+"</th><th>"+item.phone+"</th><th>"+item.plant_id+"</th></tr>"; //тут будет не айди у растения
-               });
+        items.forEach(item => {
+            plants += "<tr><th><div contenteditable>" + item.name + "</div></th><th><div contenteditable>" + item.family + "</div></th><th><div contenteditable class='plant_desc'>" + item.desc + "</div></th><th>" + item.img + "</th><th>" + item.water + "</th><th>" + item.care + "</th><th>" + item.sun + "</th><th>" + item.toxity + "</th></tr>";
+        });
 
-            orders+="</table>";
-            $("#orders").append(orders);
-  }
+        plants += "</table>";
+        $("#plants").append(plants);
+    }*/
+
+    function addOrdersToTable(items) {
+        var orders = "<table><caption>Orders</caption><tr><th>Order №</th><th>Name</th><th>Date</th>" +
+            "<th>Phone</th><th>Plant</th></tr>";
+
+        items.forEach(item => {
+            orders += "<tr><th>" + item.id + "</th><th>" + item.name + "</th><th>" + item.datetime + "</th><th>" +
+                item.phone + "</th><th>" + item.plant_id + "</th></tr>"; //тут будет не айди у растения
+        });
+
+        orders += "</table>";
+        $("#orders").append(orders);
+    }
 
     var logoutBtn = document.getElementById('logout');
 
-    logoutBtn.addEventListener('click', function() {
-      localStorage.setItem("adminAuth", "false");
+    logoutBtn.addEventListener('click', function () {
+        localStorage.setItem("adminAuth", "false");
         window.location.replace("../index.html");
     }, false);
 
-        $('.show_popup').click(function() { // Вызываем функцию по нажатию на кнопку
+    $('.show_popup').click(function () { // Вызываем функцию по нажатию на кнопку
         var popup_id = $('#' + $(this).attr("rel")); // Связываем rel и popup_id
         $(popup_id).show(); // Открываем окно
         $('.overlay_popup').show(); // Открываем блок заднего фона
-       })
+    })
 
-        $('.overlay_popup').click(function() { // Обрабатываем клик по заднему фону
-            $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
-        })
+    $('.overlay_popup').click(function () { // Обрабатываем клик по заднему фону
+        $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
+    })
 </script>
