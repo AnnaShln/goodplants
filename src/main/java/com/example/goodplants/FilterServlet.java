@@ -30,9 +30,16 @@ public class FilterServlet extends HttpServlet {
             String care_fil = request.getParameter("filterCare");
             String sun_fil = request.getParameter("filterSun");
             String toxicity_fil = request.getParameter("filterToxicity");
+            String plant_id = request.getParameter("plantId");
             String sql_text;
             String condition = " ";
             if(Objects.equals(all, "true")) {
+                if (plant_id != null){
+                    sql_text = "select plant.id, name, family, plant.desc, img, water, sun, care, toxicity " +
+                            "from plant, water, sun, care, toxicity " +
+                            "where water_id = water.id and sun_id = sun.id and care_id = care.id and toxicity_id = toxicity.id " +
+                            "and plant.id = "+ plant_id +";";
+                }else
                 sql_text = "select plant.id, name, family, plant.desc, img, water, sun, care, toxicity " +
                         "from plant, water, sun, care, toxicity " +
                         "where water_id = water.id and sun_id = sun.id and care_id = care.id and toxicity_id = toxicity.id;";

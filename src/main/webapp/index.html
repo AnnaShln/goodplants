@@ -23,7 +23,7 @@
                         "<div class='italic-font family'>" +
                         plant[2] +
                         "</div>" +
-                        "<div class='btn btn-font show_plant_popup' id='"+plant[0]+"'>info</div></div></div>";
+                        "<div class='btn btn-font show_plant_popup' id='" + plant[0] + "'>info</div></div></div>";
                 });
                 $("#plantlist").html(plantslist);
             }
@@ -47,11 +47,16 @@
             );
         }
 
-        function clearRadio(){
+        function clearRadio() {
             $('input[name="water"]:checked').attr('checked', false);
             $('input[name="care"]:checked').attr('checked', false);
             $('input[name="sun"]:checked').attr('checked', false);
             $('input[name="toxicity"]:checked').attr('checked', false);
+        }
+
+        function createOrder(n, p, pl) {
+            $.get("order-servlet",
+                {name: n, phone: p, plant: pl});
         }
 
         var water = [];
@@ -94,6 +99,22 @@
             filter(w, c, s, t);
         }
 
+        function showInfoInPopap(i) {
+            $.get("filter-servlet",
+                {allPlants: "true", plantId: i},
+                function (responseTxt) {
+                    var plant = responseTxt.split(";");
+                    $('#name_popup').text(plant[1]);
+                    $('#family_popup').text(plant[2]);
+                    $('#care_popup').text(plant[7]);
+                    $('#sun_popup').text(plant[6]);
+                    $('#toxicity_popup').text(plant[8]);
+                    $('#water_popup').text(plant[5]);
+                    $('#desc_plant_popup').text(plant[3]);
+                }
+            );
+        }
+
         $(document).ready(function () {
 
             getAllPlants();
@@ -121,6 +142,13 @@
             $('input[name="toxicity"]').click(function () {
                 showFilters();
             });
+
+            $('#callme').click(function () {
+                var name = $('#name_callme').val();
+                var phone = $('#phone_callme').val();
+                var plant = localStorage.getItem("currPlantId");
+                createOrder(name, phone, plant);
+            })
 
             var loginBtn = document.getElementById('login');
             var password = document.getElementById('password');
@@ -152,12 +180,16 @@
                 document.getElementById('desc_plant_popup').innerText = "YOUR PLANT: " + $(this).attr("id");  // в этот элемент записывать описание по цветку
                 $('#plant_popup').show();
                 $('.overlay_popup').show();
+                showInfoInPopap($(this).attr("id"));
+                localStorage.setItem("currPlantId", $(this).attr("id"));
+
             })
 
             $('.overlay_popup').click(function () {
                 $('.overlay_popup, .popup').hide();
             })
-        });
+        })
+        ;
     </script>
 </head>
 <body>
@@ -200,10 +232,10 @@
         </div>
     </aside>
     <article>
-        <div class='show_plant_popup btn btn-font admin' id="111">info1</div>
-        <div class='show_plant_popup btn btn-font admin' id="222">info2</div>
-        <div class='show_plant_popup btn btn-font admin' id="333">info3</div>
-        <div class='show_plant_popup btn btn-font admin' id="444">info4</div>
+        <div class='show_plant_popup btn btn-font admin' id="1">info1</div>
+        <div class='show_plant_popup btn btn-font admin' id="2">info2</div>
+        <div class='show_plant_popup btn btn-font admin' id="3">info3</div>
+        <div class='show_plant_popup btn btn-font admin' id="4">info4</div>
         <div id="plantlist">
         </div>
         <div class="overlay_popup"></div>
@@ -212,7 +244,7 @@
                 <p class="header-font" id="name_popup">Plantname</p>
                 <p class="italic-font family" id="family_popup">Plant family</p>
                 <p class="medium-font">care
-                    <div id="care_popup">caaaare</div>
+                <div id="care_popup">caaaare</div>
                 </p>
                 <p class="medium-font">water
                 <div id="water_popup">wateeer</div>
@@ -224,8 +256,8 @@
                 <div id="toxicity_popup">tooooxic</div>
                 </p>
                 <p class="medium-font">Description</p>
-                <p class="small-font" id="desc_plant_popup">Description Description</p>  //сюда подставляется описание по выбранному растению
-                <p  class="medium-font">For more information, leave your contact details</p>
+                <p class="small-font" id="desc_plant_popup">Description Description</p>
+                <p class="medium-font">For more information, leave your contact details</p>
                 <form>
                     <p class="medium-font">Name</p>
                     <p><input type="text" name="name" id="name_callme"></p>
