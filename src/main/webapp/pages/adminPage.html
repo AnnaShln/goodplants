@@ -19,18 +19,46 @@
         <div id="orders" class="table">
         </div>
         <div id="plants" class="table">
-            <button class="show_popup blue_btn" rel="popup1">Add plant</button>
+            <button class="show_popup blue_btn" rel="add_popup">Add plant</button>
             <div class="overlay_popup"></div>
-            <div class="popup" id="popup1">
+            <div class="popup" id="add_popup">
                 <div class="object">
                     <form action="" method="">
                         <p>Name</p>
-                        <p><input type="text" name="name"></p>
+                        <p><input type="text" name="name" id="name_select"></p>
                         <p>Family:</p>
-                        <p><input type="text" name="family"></p>
+                        <p><input type="text" name="family" id="family_select"></p>
                         <p>Desc: </p>
-                        <p><textarea rows="10" cols="45" name="desc"></textarea></p>
-                        <input type="submit" value="Add">
+                        <p><textarea rows="10" cols="45" name="desc" id="desc_select"></textarea></p>
+                        <p>Image</p>
+                        <p><input type="file" accept="image/*" name="image" id="image_select"></p>
+                        <select  id="water_select">
+                            <option disabled>WATER</option>
+                            <option>every 3-5 days</option>
+                            <option>1-2 times  a week</option>
+                            <option>every 10-14 days</option>
+                            <option>once a month</option>
+                        </select>
+                        <select id="sun_select">
+                            <option disabled>SUN</option>
+                            <option>part-shade</option>
+                            <option>part-sun</option>
+                            <option>part-full</option>
+                            <option>full sun</option>
+                            <option>full shade</option>
+                        </select>
+                        <select id="care_select">
+                            <option disabled>CARE</option>
+                            <option>easy</option>
+                            <option>medium</option>
+                            <option>hard</option>
+                        </select>
+                        <select id="toxicity_select">
+                            <option disabled>TOXICITY</option>
+                            <option>toxic</option>
+                            <option>non-toxic</option>
+                        </select>
+                        <input type="submit" value="Add" id="addBtn">
                     </form>
                 </div>
             </div>
@@ -105,13 +133,19 @@
         window.location.replace("../index.html");
     }, false);
 
-    $('.show_popup').click(function () { // Вызываем функцию по нажатию на кнопку
-        var popup_id = $('#' + $(this).attr("rel")); // Связываем rel и popup_id
-        $(popup_id).show(); // Открываем окно
-        $('.overlay_popup').show(); // Открываем блок заднего фона
+    $('.show_popup').click(function () {
+        var popup_id = $('#' + $(this).attr("rel"));
+        $(popup_id).show();
+        $('.overlay_popup').show();
     })
 
-    $('.overlay_popup').click(function () { // Обрабатываем клик по заднему фону
-        $('.overlay_popup, .popup').hide(); // Скрываем затемнённый задний фон и основное всплывающее окно
-    })
+    $('.overlay_popup').click(function () {
+        $('.overlay_popup, .popup').hide();
+    });
+
+    $('#image_select').click(function () {
+        var fileName = $("#image_select").val().split('/').pop().split('\\').pop();
+        console.log(fileName);
+    });
+
 </script>

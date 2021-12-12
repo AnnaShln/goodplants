@@ -99,7 +99,8 @@ textarea:focus {
   color: var(--pink);
 }
 
-.plant_popup{
-  top: 0;
-  left: 0;
+.plant{
+  position: relative;
+  left: -70%;
 }
+
