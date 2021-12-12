@@ -22,12 +22,12 @@
                         "</div>" +
                         "<div class='italic-font family'>" +
                         plant[2] +
-                        "</div></div></div>";
+                        "</div>" +
+                        "<div class='btn btn-font show_plant_popup' id='"+plant[0]+"'>info</div></div></div>";
                 });
                 $("#plantlist").html(plantslist);
             }
         }
-
 
         function getAllPlants() {
             $.get("filter-servlet",
@@ -138,6 +138,13 @@
                 var popup_id = $('#' + $(this).attr("rel"));
                 $(popup_id).show();
                 $('.overlay_popup').show();
+            });
+
+            $('.show_plant_popup').click(function () {
+                console.log($(this).attr("id"));
+                document.getElementById('desc_plant_popup').innerText = "YOUR PLANT: " + $(this).attr("id");  // в этот элемент записывать описание по цветку
+                $('#plant_popup').show();
+                $('.overlay_popup').show();
             })
 
             $('.overlay_popup').click(function () {
@@ -184,9 +191,26 @@
             </div>
         </div>
     </aside>
-
     <article>
+        <div class='show_plant_popup btn btn-font admin' id="111">info1</div>
+        <div class='show_plant_popup btn btn-font admin' id="222">info2</div>
+        <div class='show_plant_popup btn btn-font admin' id="333">info3</div>
+        <div class='show_plant_popup btn btn-font admin' id="444">info4</div>
         <div id="plantlist">
+        </div>
+        <div class="overlay_popup"></div>
+        <div class="popup" id="plant_popup">
+            <div class="object">
+                <p class="medium-font">Description</p>
+                <p class="small-font" id="desc_plant_popup">Description Description</p>  //сюда подставляется описание по выбранному растению
+                <form>
+                    <p class="medium-font">Name</p>
+                    <p><input type="text" name="name" id="name_callme"></p>
+                    <p class="medium-font">Phone</p>
+                    <p><input type="text" name="phone" id="phone_callme"></p>
+                    <button type="submit" class="btn btn-font admin login" id="callme">call me</button>
+                </form>
+            </div>
         </div>
     </article>
     <footer>
@@ -200,7 +224,6 @@
                 <button class="btn btn-font admin login" id="login">login</button>
             </div>
         </div>
-
     </footer>
 </div>
 </body>

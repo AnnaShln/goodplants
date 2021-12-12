@@ -98,3 +98,8 @@ textarea:focus {
 .plant-name:hover {
   color: var(--pink);
 }
+
+.plant_popup{
+  top: 0;
+  left: 0;
+}
