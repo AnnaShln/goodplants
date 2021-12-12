@@ -17,7 +17,7 @@
                 plants.forEach(el => {
                     plant = el.split(";");
                     plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
-                        "' width='250px'><div class='desc'><div class='name'>" +
+                        "' width='250px'><div class='desc'><div class='name plant-name'>" +
                         plant[1] +
                         "</div>" +
                         "<div class='italic-font family'>" +
@@ -200,9 +200,24 @@
         </div>
         <div class="overlay_popup"></div>
         <div class="popup" id="plant_popup">
-            <div class="object">
+            <div class="object plant">
+                <p class="header-font" id="name_popup">Plantname</p>
+                <p class="italic-font family" id="family_popup">Plant family</p>
+                <p class="medium-font">care
+                    <div id="care_popup">caaaare</div>
+                </p>
+                <p class="medium-font">water
+                <div id="water_popup">wateeer</div>
+                </p>
+                <p class="medium-font">sun
+                <div id="sun_popup">suuuuuun</div>
+                </p>
+                <p class="medium-font">toxicity
+                <div id="toxicity_popup">tooooxic</div>
+                </p>
                 <p class="medium-font">Description</p>
                 <p class="small-font" id="desc_plant_popup">Description Description</p>  //сюда подставляется описание по выбранному растению
+                <p  class="medium-font">For more information, leave your contact details</p>
                 <form>
                     <p class="medium-font">Name</p>
                     <p><input type="text" name="name" id="name_callme"></p>
