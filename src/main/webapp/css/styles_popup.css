@@ -94,3 +94,7 @@ textarea:focus {
 .login{
   margin: 0px;
 }
+
+.plant-name:hover {
+  color: var(--pink);
+}
