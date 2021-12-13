@@ -17,13 +17,13 @@
                 plants.forEach(el => {
                     plant = el.split(";");
                     plantslist += "<div class='plantItem medium-font'><img src='img/" + plant[4] +
-                        "' width='250px'><div class='desc'><div class='name plant-name'>" +
+                        "' width='250px'><div class='desc_plant'><div class='name'>" +
                         plant[1] +
                         "</div>" +
                         "<div class='italic-font family'>" +
                         plant[2] +
                         "</div>" +
-                        "<div class='btn btn-font show_plant_popup' id='" + plant[0] + "'>info</div></div></div>";
+                        "<div class='show_plant_popup btn btn-font' id='" + plant[0] + "' onclick='addPlantPopup()'>info</div></div></div>";
                 });
                 $("#plantlist").html(plantslist);
             }
@@ -112,7 +112,9 @@
             );
         }
 
+
         $(document).ready(function () {
+
 
             getAllPlants();
 
@@ -172,21 +174,20 @@
                 $('.overlay_popup').show();
             });
 
-            $('.show_plant_popup').click(function () {
-                console.log($(this).attr("id"));
-                document.getElementById('desc_plant_popup').innerText = "YOUR PLANT: " + $(this).attr("id");  // в этот элемент записывать описание по цветку
-                $('#plant_popup').show();
-                $('.overlay_popup').show();
-                showInfoInPopap($(this).attr("id"));
-                localStorage.setItem("currPlantId", $(this).attr("id"));
-
-            })
-
             $('.overlay_popup').click(function () {
                 $('.overlay_popup, .popup').hide();
-            })
-        })
-        ;
+            });
+        });
+
+    function addPlantPopup(){
+        $('.show_plant_popup').click(function () {
+            $('html, body').animate({scrollTop: '0px'}, 800);
+            $('#plant_popup').show();
+            $('.overlay_popup').show();
+            showInfoInPopap($(this).attr("id"));
+            localStorage.setItem("currPlantId", $(this).attr("id"));
+        });
+    }
     </script>
 </head>
 <body>
@@ -229,32 +230,28 @@
         </div>
     </aside>
     <article>
-        <div class='show_plant_popup btn btn-font admin' id="1">info1</div>
-        <div class='show_plant_popup btn btn-font admin' id="2">info2</div>
-        <div class='show_plant_popup btn btn-font admin' id="3">info3</div>
-        <div class='show_plant_popup btn btn-font admin' id="4">info4</div>
         <div id="plantlist">
         </div>
         <div class="overlay_popup"></div>
         <div class="popup" id="plant_popup">
             <div class="object plant">
                 <p class="header-font" id="name_popup">Plantname</p>
-                <p class="italic-font family" id="family_popup">Plant family</p>
-                <p class="medium-font">care
-                <div id="care_popup">caaaare</div>
-                </p>
-                <p class="medium-font">water
-                <div id="water_popup">wateeer</div>
-                </p>
-                <p class="medium-font">sun
-                <div id="sun_popup">suuuuuun</div>
-                </p>
-                <p class="medium-font">toxicity
-                <div id="toxicity_popup">tooooxic</div>
-                </p>
+                <p class="italic-font" id="family_popup">Plant family</p>
+                <div class="medium-font desc">care
+                <div class="small-font" id="care_popup"></div>
+                </div>
+                <div class="medium-font desc">water
+                <div class="small-font" id="water_popup"></div>
+                </div>
+                <div class="medium-font desc">sun
+                <div class="small-font" id="sun_popup"></div>
+                </div>
+                <div class="medium-font desc">toxicity
+                <div class="small-font" id="toxicity_popup"></div>
+                </div>
                 <p class="medium-font">Description</p>
                 <p class="small-font" id="desc_plant_popup">Description Description</p>
-                <p class="medium-font">For more information, leave your contact details</p>
+                <p class="small-font more_info">For more information, leave your contact details</p>
                 <form>
                     <p class="medium-font">Name</p>
                     <p><input type="text" name="name" id="name_callme"></p>

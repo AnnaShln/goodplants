@@ -70,7 +70,7 @@ textarea:focus {
   position: absolute;
   top: 50%;
   z-index: 1000;
-  margin:0 25% 0 25%;
+  margin:0 30% 0 30%;
   width:50%;
 }
 
@@ -101,6 +101,17 @@ textarea:focus {
 
 .plant{
   position: relative;
-  left: -70%;
+  top: -100px;
+  right: 60%;
+  width: 100%;
 }
 
+div > .desc{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.more_info{
+  margin-top: 15px;
+  color: var(--pink);
+}

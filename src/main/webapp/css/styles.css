@@ -6,6 +6,7 @@
   --pink: #e145a3;
 }
 body{
+    overflow-x: hidden;
   font-family: Verdana, Geneva, sans-serif; 
   font-style: normal; 
   font-variant: normal; 
@@ -64,7 +65,7 @@ article {
   margin-bottom: 10px;
   align-content: flex-start;
 }
-.desc {
+.desc_plant {
   text-transform: uppercase;
   margin-top: 5px;
 }
@@ -224,3 +225,4 @@ input[type="radio"]:checked + label:after {
 .clearBtn:hover{
     color: #e145a3;
 }
+
