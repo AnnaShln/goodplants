@@ -29,7 +29,7 @@
             }
         }
 
-        function getAllPlants() {
+        function getAllPlants() {  //выполняется при загрузке и никаких параметров кроме allPlants не передается
             $.get("filter-servlet",
                 {allPlants: "true"},
                 function (responseTxt) {
@@ -51,7 +51,7 @@
             $('input[type="radio"]:checked').prop('checked', false);
         }
 
-        function createOrder(n, p, pl) {
+        function createOrder(n, p, pl) {  //передаем данные для заказа
             $.get("order-servlet",
                 {name: n, phone: p, plant: pl});
         }
