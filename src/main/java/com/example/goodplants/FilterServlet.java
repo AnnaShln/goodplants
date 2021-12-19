@@ -7,7 +7,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 
-@WebServlet(name = "filterServlet", value = "/filter-servlet")
+@WebServlet(name = "filterServlet", value = "/filter-servlet")  //послении версии - пути через value
+
 public class FilterServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -25,12 +26,12 @@ public class FilterServlet extends HttpServlet {
             final String DB_URL = "jdbc:mysql://localhost/goodplant";
             Connection conn = DriverManager.getConnection(DB_URL, user, pass);
             Statement stmt = conn.createStatement();
-            String all = request.getParameter("allPlants");
-            String water_fil = request.getParameter("filterWater");
+            String all = request.getParameter("allPlants");  //true / false - вывод всех данных или нет
+            String water_fil = request.getParameter("filterWater"); //передача значений radiobutton (передает все параметры по кнопкам)
             String care_fil = request.getParameter("filterCare");
             String sun_fil = request.getParameter("filterSun");
             String toxicity_fil = request.getParameter("filterToxicity");
-            String plant_id = request.getParameter("plantId");
+            String plant_id = request.getParameter("plantId"); //для вывода информации по popup
             String sql_text;
             String condition = " ";
             if(Objects.equals(all, "true")) {
@@ -68,7 +69,7 @@ public class FilterServlet extends HttpServlet {
             } else {
 
                 while (rs.next()) {
-                    allPlants.append(rs.getString("id")).append(";").append(rs.getString("name"))
+                    allPlants.append(rs.getString("id")).append(";").append(rs.getString("name"))  //вывод полученных из бд данных строкой, потом разбивка по точке с запятой
                             .append(";").append(rs.getString("family"))
                             .append(";").append(rs.getString("desc"))
                             .append(";").append(rs.getString("img"))
